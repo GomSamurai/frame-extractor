@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Sparkles, Heart, Bot, Zap, LayoutGrid, Filter, Edit3, ShieldCheck, Film, Code, Github } from 'lucide-react';
+import { X, Sparkles, Heart, Bot, Zap, LayoutGrid, Filter, Edit3, ShieldCheck, Film, Code2, Globe } from 'lucide-react';
 import AppLogoIcon from './AppLogoIcon';
 
 export default function AboutAppModal({ isOpen, onClose }) {
@@ -105,7 +105,7 @@ export default function AboutAppModal({ isOpen, onClose }) {
               className="btn btn-secondary"
               style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem', textDecoration: 'none' }}
             >
-              <Github size={14} /> @GomSamurai
+              <Globe size={14} /> @GomSamurai
             </a>
           </div>
         </div>
