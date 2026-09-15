@@ -77,8 +77,8 @@ Los ejecutables oficiales para Windows 10/11 se generan en el directorio `dist_e
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/GomSamurai/video-captures.git
-cd video-captures
+git clone https://github.com/GomSamurai/frame-extractor.git
+cd frame-extractor
 ```
 
 ### 2. Instalación de dependencias
@@ -100,28 +100,6 @@ npm install
 ```bash
 npm run build:win
 ```
-
----
-
-## 🌐 Despliegue en Vercel
-
-Este proyecto está optimizado para ejecutarse como una **Web App Progresiva en Vercel**:
-
-1. Conecta tu cuenta de GitHub con Vercel.
-2. Importa el repositorio `video-captures`.
-3. Framework Preset: **Vite**.
-4. Command de Build: `npm run build`
-5. Directivo de Salida: `dist`
-6. ¡Despliega en 1 clic!
-
----
-
-## 👤 Autor y Créditos
-
-Diseñado y desarrollado con pasión por **Fran Gómez**.
-
-- **GitHub Profile**: [@GomSamurai](https://github.com/GomSamurai)
-- **Repositorio**: [https://github.com/GomSamurai/video-captures](https://github.com/GomSamurai/video-captures)
 
 ---
 
