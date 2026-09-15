@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist_electron
+RELEASES_GITHUB
 dist-ssr
 *.local
 
