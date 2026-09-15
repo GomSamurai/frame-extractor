@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import {
   Camera, Sliders, Clock, Shuffle, Eye, Flame, Grid, Play, Sparkles,
-  Bot, Heart, UserCheck, Zap, ShieldCheck, SunMedium, MoveHorizontal, Smile, EyeOff, Search, Dog, Car
+  Bot, Heart, UserCheck, Zap, ShieldCheck, SunMedium, MoveHorizontal, Smile, EyeOff, Search, Dog, Car,
+  Plus, X, Check, RotateCcw
 } from 'lucide-react';
+
+const DEFAULT_PRESET_TAGS = [
+  'sonrisa radiante',
+  'mirada a cámara',
+  'pareja',
+  'perro / mascota',
+  'paisaje',
+  'coche / vehículo'
+];
 
 export default function ExtractionControlHub({
   videoRef,
@@ -35,6 +45,54 @@ export default function ExtractionControlHub({
   const [minAestheticScore, setMinAestheticScore] = useState(60);
   const [aiSampleInterval, setAiSampleInterval] = useState(0.5);
   const [maxAiCaptures, setMaxAiCaptures] = useState(12);
+
+  // Custom Preset Tags Management with LocalStorage
+  const [presetTags, setPresetTags] = useState(() => {
+    try {
+      const saved = localStorage.getItem('frameextractor_preset_tags');
+      return saved ? JSON.parse(saved) : DEFAULT_PRESET_TAGS;
+    } catch (e) {
+      return DEFAULT_PRESET_TAGS;
+    }
+  });
+  const [isAddingTag, setIsAddingTag] = useState(false);
+  const [newTagText, setNewTagText] = useState('');
+
+  const handleAddTag = (tagToAdd) => {
+    const clean = tagToAdd.trim();
+    if (!clean) return;
+    if (!presetTags.includes(clean)) {
+      const updated = [...presetTags, clean];
+      setPresetTags(updated);
+      try {
+        localStorage.setItem('frameextractor_preset_tags', JSON.stringify(updated));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    setCustomPrompt(clean);
+    setIsAddingTag(false);
+    setNewTagText('');
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    const updated = presetTags.filter(t => t !== tagToRemove);
+    setPresetTags(updated);
+    try {
+      localStorage.setItem('frameextractor_preset_tags', JSON.stringify(updated));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleResetTags = () => {
+    setPresetTags(DEFAULT_PRESET_TAGS);
+    try {
+      localStorage.setItem('frameextractor_preset_tags', JSON.stringify(DEFAULT_PRESET_TAGS));
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // Facial Intelligence Toggles (Desactivados por defecto a petición del usuario)
   const [filterBlinking, setFilterBlinking] = useState(false);
@@ -253,11 +311,25 @@ export default function ExtractionControlHub({
                 </p>
 
                 <div className="option-group">
-                  <label className="option-label">
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <Search size={16} color="#06b6d4" /> Buscar Acción / Concepto:
-                    </span>
-                  </label>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                    <label className="option-label" style={{ margin: 0 }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <Search size={16} color="#06b6d4" /> Buscar Acción / Concepto:
+                      </span>
+                    </label>
+                    {customPrompt.trim() && !presetTags.includes(customPrompt.trim()) && (
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        style={{ padding: '0.2rem 0.5rem', fontSize: '0.72rem', color: '#67e8f9', border: '1px solid rgba(6,182,212,0.4)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                        onClick={() => handleAddTag(customPrompt)}
+                        title="Guardar este concepto como tag accesible rápidamente"
+                      >
+                        <Plus size={13} /> Guardar como Tag
+                      </button>
+                    )}
+                  </div>
+
                   <input
                     type="text"
                     className="number-input"
@@ -265,17 +337,106 @@ export default function ExtractionControlHub({
                     onChange={(e) => setCustomPrompt(e.target.value)}
                     placeholder="Ej. sonrisa radiante, mirada a cámara, beso, coche rojo, perro..."
                   />
-                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.4rem' }}>
-                    {['sonrisa radiante', 'mirada a cámara', 'pareja', 'perro / mascota', 'paisaje', 'coche / vehículo'].map(tag => (
+
+                  {/* Interactive Dynamic Tags Pills */}
+                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.6rem', alignItems: 'center' }}>
+                    {presetTags.map(tag => {
+                      const isActive = customPrompt.trim().toLowerCase() === tag.toLowerCase();
+                      return (
+                        <div
+                          key={tag}
+                          className={`btn ${isActive ? 'btn-primary' : 'btn-secondary'}`}
+                          style={{
+                            padding: '0.2rem 0.55rem',
+                            fontSize: '0.75rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.35rem',
+                            borderRadius: 'var(--radius-sm)'
+                          }}
+                          onClick={() => setCustomPrompt(tag)}
+                          title={`Usar tag "${tag}"`}
+                        >
+                          <span style={{ cursor: 'pointer' }}>+ {tag}</span>
+                          <span
+                            style={{
+                              opacity: 0.6,
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              padding: '1px',
+                              borderRadius: '3px'
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRemoveTag(tag);
+                            }}
+                            title={`Eliminar tag "${tag}"`}
+                          >
+                            <X size={12} />
+                          </span>
+                        </div>
+                      );
+                    })}
+
+                    {isAddingTag ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <input
+                          type="text"
+                          className="number-input"
+                          style={{ padding: '0.2rem 0.4rem', fontSize: '0.75rem', width: '130px' }}
+                          placeholder="Nuevo tag..."
+                          value={newTagText}
+                          onChange={(e) => setNewTagText(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleAddTag(newTagText);
+                            if (e.key === 'Escape') { setIsAddingTag(false); setNewTagText(''); }
+                          }}
+                          autoFocus
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          style={{ padding: '0.2rem 0.4rem', fontSize: '0.75rem' }}
+                          onClick={() => handleAddTag(newTagText)}
+                          title="Guardar tag"
+                        >
+                          <Check size={13} />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          style={{ padding: '0.2rem 0.4rem', fontSize: '0.75rem' }}
+                          onClick={() => { setIsAddingTag(false); setNewTagText(''); }}
+                          title="Cancelar"
+                        >
+                          <X size={13} />
+                        </button>
+                      </div>
+                    ) : (
                       <button
-                        key={tag}
+                        type="button"
                         className="btn btn-secondary"
-                        style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}
-                        onClick={() => setCustomPrompt(tag)}
+                        style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem', borderStyle: 'dashed', color: '#67e8f9', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                        onClick={() => setIsAddingTag(true)}
+                        title="Añadir un nuevo tag personalizado"
                       >
-                        + {tag}
+                        <Plus size={13} /> Añadir Tag
                       </button>
-                    ))}
+                    )}
+
+                    {presetTags.length > 0 && (
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-icon-only"
+                        style={{ width: '26px', height: '26px', padding: 0, marginLeft: 'auto' }}
+                        onClick={handleResetTags}
+                        title="Restablecer tags predeterminados"
+                      >
+                        <RotateCcw size={12} />
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
