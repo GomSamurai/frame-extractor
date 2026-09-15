@@ -26,7 +26,7 @@
 - ⚡ **Filtro de Nitidez Laplaciana**: Descarta tomas fuera de foco, borrosas o movidas.
 - 👩‍❤️‍👨 **Clasificador de Sujetos y Parejas**: Detecta la presencia de 1 persona, parejas o grupos.
 
-### 🎨 2. Pizarra PureRef / Moodboard Canvas Infinito
+### 🎨 2. Pizarra Moodboard Canvas Infinito
 - 🌌 **Lienzo Espacial Infinito**: Navega con Zoom (rueda del ratón de 20% a 350%) y Pan espacial.
 - 🔄 **Transformación Libre**:
   - Arrastre libre de fotogramas (X, Y).

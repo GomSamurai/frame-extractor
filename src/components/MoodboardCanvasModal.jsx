@@ -368,7 +368,7 @@ export default function MoodboardCanvasModal({
         <div className="moodboard-toolbar glass-panel" style={{ position: 'absolute', top: '16px', left: '50%', transform: 'translateX(-50%)', zIndex: 100, display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderRight: '1px solid var(--border-subtle)', paddingRight: '0.75rem' }}>
             <Sparkles size={18} color="#06b6d4" />
-            <strong style={{ fontSize: '0.95rem', fontWeight: 800 }}>Pizarra Moodboard PureRef</strong>
+            <strong style={{ fontSize: '0.95rem', fontWeight: 800 }}>Pizarra Moodboard</strong>
             <span className="badge badge-cyan">{items.length} Elementos</span>
           </div>
 
@@ -404,7 +404,7 @@ export default function MoodboardCanvasModal({
             style={{ padding: '0.3rem 0.5rem', fontSize: '0.78rem', width: '110px' }}
             value={bgStyle}
             onChange={(e) => setBgStyle(e.target.value)}
-            title="Estilo de Fondo"
+            title="Estilo de Fondo de la Pizarra"
           >
             <option value="grid">Rejilla Oscura</option>
             <option value="dark">Fondo Negro</option>
@@ -466,7 +466,9 @@ export default function MoodboardCanvasModal({
             height: '100%',
             position: 'relative',
             cursor: isPanning ? 'grabbing' : 'default',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            background: bgStyle === 'white' ? '#ffffff' : bgStyle === 'studio' ? '#1e293b' : bgStyle === 'dark' ? '#000000' : '#070913',
+            transition: 'background 0.25s ease'
           }}
           onWheel={handleWheel}
           onMouseDown={handleBgMouseDown}

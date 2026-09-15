@@ -456,7 +456,7 @@ export default function App() {
           <button
             className="btn btn-accent"
             onClick={() => setIsMoodboardOpen(true)}
-            title="Abrir Pizarra Infinite Moodboard PureRef"
+            title="Abrir Pizarra Moodboard Canvas (Lienzo Infinito Multivídeo)"
           >
             <Sparkles size={16} /> Pizarra Moodboard ({moodboardItems.length})
           </button>

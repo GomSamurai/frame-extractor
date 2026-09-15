@@ -36,9 +36,9 @@ export default function ExtractionControlHub({
   const [aiSampleInterval, setAiSampleInterval] = useState(0.5);
   const [maxAiCaptures, setMaxAiCaptures] = useState(12);
 
-  // Facial Intelligence Toggles
-  const [filterBlinking, setFilterBlinking] = useState(true);
-  const [filterVocalizing, setFilterVocalizing] = useState(true);
+  // Facial Intelligence Toggles (Desactivados por defecto a petición del usuario)
+  const [filterBlinking, setFilterBlinking] = useState(false);
+  const [filterVocalizing, setFilterVocalizing] = useState(false);
 
   const effectiveDuration = outPoint - inPoint;
 
@@ -91,7 +91,7 @@ export default function ExtractionControlHub({
         <h3 style={{ fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Bot size={22} color="#06b6d4" /> Modos de Extracción e IA
         </h3>
-        <span className="badge badge-indigo">
+        <span className="badge badge-indigo" title="Motor de visión artificial local sin enviar datos a la nube">
           <Sparkles size={14} /> Smart Vision Engine
         </span>
       </div>
@@ -102,6 +102,7 @@ export default function ExtractionControlHub({
           className={`hub-tab-btn ${activeTab === 'smart-ai' ? 'active' : ''}`}
           onClick={() => setActiveTab('smart-ai')}
           style={{ background: activeTab === 'smart-ai' ? 'var(--gradient-brand)' : undefined, color: activeTab === 'smart-ai' ? '#fff' : undefined }}
+          title="🤖 Smart IA Vision: Analiza inteligentemente el vídeo con IA local buscando conceptos por texto libre, expresiones, nitidez y sujetos."
         >
           <Sparkles size={16} /> 🤖 Smart IA Vision
         </button>
@@ -109,6 +110,7 @@ export default function ExtractionControlHub({
         <button
           className={`hub-tab-btn ${activeTab === 'uniform' ? 'active' : ''}`}
           onClick={() => setActiveTab('uniform')}
+          title="🔢 Conteo Uniforme: Extrae una cantidad exactas de fotogramas repartidos equitativamente a lo largo del vídeo."
         >
           <Sliders size={16} /> Conteo Uniforme
         </button>
@@ -116,6 +118,7 @@ export default function ExtractionControlHub({
         <button
           className={`hub-tab-btn ${activeTab === 'interval' ? 'active' : ''}`}
           onClick={() => setActiveTab('interval')}
+          title="⏱️ Intervalo de Tiempo: Toma un fotograma automáticamente cada X segundos de reproducción."
         >
           <Clock size={16} /> Intervalo Tiempo
         </button>
@@ -123,6 +126,7 @@ export default function ExtractionControlHub({
         <button
           className={`hub-tab-btn ${activeTab === 'random' ? 'active' : ''}`}
           onClick={() => setActiveTab('random')}
+          title="🎲 Aleatorio: Captura fotogramas en momentos al azar garantizando una separación mínima especificada."
         >
           <Shuffle size={16} /> Aleatorio
         </button>
@@ -130,6 +134,7 @@ export default function ExtractionControlHub({
         <button
           className={`hub-tab-btn ${activeTab === 'scene' ? 'active' : ''}`}
           onClick={() => setActiveTab('scene')}
+          title="👁️ Detección de Escena: Compara cambios cromáticos entre imágenes para detectar cortes de plano o cambios de cámara."
         >
           <Eye size={16} /> Detección Escena
         </button>
@@ -137,6 +142,7 @@ export default function ExtractionControlHub({
         <button
           className={`hub-tab-btn ${activeTab === 'burst' ? 'active' : ''}`}
           onClick={() => setActiveTab('burst')}
+          title="🔥 Ráfaga Continua: Extrae fotogramas consecutivos a alta velocidad centrados en la posición actual del vídeo."
         >
           <Flame size={16} /> Ráfaga
         </button>
@@ -144,6 +150,7 @@ export default function ExtractionControlHub({
         <button
           className={`hub-tab-btn ${activeTab === 'contact' ? 'active' : ''}`}
           onClick={onOpenContactSheet}
+          title="📐 Storyboard Grid: Genera una hoja de contactos/cuadrícula descargable combinando múltiples capturas en una sola imagen."
         >
           <Grid size={16} /> Storyboard Grid
         </button>
@@ -159,6 +166,7 @@ export default function ExtractionControlHub({
                 className={`btn ${aiSubTab === 'custom-prompt' ? 'btn-primary' : 'btn-secondary'}`}
                 style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
                 onClick={() => setAiSubTab('custom-prompt')}
+                title="✍️ Buscador por Texto Libre: Describe la acción o concepto exacto que deseas encontrar en el vídeo."
               >
                 <Search size={14} color="#67e8f9" /> ✍️ Buscador por Texto Libre
               </button>
@@ -167,6 +175,7 @@ export default function ExtractionControlHub({
                 className={`btn ${aiSubTab === 'couples' ? 'btn-primary' : 'btn-secondary'}`}
                 style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
                 onClick={() => setAiSubTab('couples')}
+                title="👩‍❤️‍👨 Sujetos y Parejas: Filtra entre retratos individuales, tomas de parejas o momentos grupales."
               >
                 <Heart size={14} color="#ec4899" /> Sujetos y Parejas
               </button>
@@ -175,6 +184,7 @@ export default function ExtractionControlHub({
                 className={`btn ${aiSubTab === 'objects' ? 'btn-primary' : 'btn-secondary'}`}
                 style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
                 onClick={() => setAiSubTab('objects')}
+                title="🐶 Mascotas & Objetos: Identifica automáticamente perros, gatos, mascotas, vehículos y elementos de entorno."
               >
                 <Dog size={14} color="#f59e0b" /> Mascotas & Objetos
               </button>
@@ -183,6 +193,7 @@ export default function ExtractionControlHub({
                 className={`btn ${aiSubTab === 'sharpness' ? 'btn-primary' : 'btn-secondary'}`}
                 style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
                 onClick={() => setAiSubTab('sharpness')}
+                title="⚡ Filtro de Nitidez: Descarta fotos borrosas o movidas quedándose solo con el top de mayor enfoque."
               >
                 <Zap size={14} color="#06b6d4" /> Filtro Nitidez
               </button>
@@ -191,6 +202,7 @@ export default function ExtractionControlHub({
                 className={`btn ${aiSubTab === 'combined' ? 'btn-primary' : 'btn-secondary'}`}
                 style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
                 onClick={() => setAiSubTab('combined')}
+                title="🤖 Curador Maestro: Evaluador integral que prioriza nitidez, iluminación, ojos abiertos y sonrisas."
               >
                 <Bot size={14} color="#10b981" /> Curador Maestro
               </button>
@@ -206,7 +218,10 @@ export default function ExtractionControlHub({
               borderRadius: 'var(--radius-md)',
               border: '1px solid rgba(99,102,241,0.25)'
             }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, color: '#67e8f9' }}>
+              <label
+                style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, color: '#67e8f9' }}
+                title="👁️ Filtro Anti-Parpadeo (Desactivado por defecto): Actívalo si deseas ignorar los fotogramas donde las personas aparezcan con los ojos cerrados o a medio parpadear."
+              >
                 <input
                   type="checkbox"
                   checked={filterBlinking}
@@ -216,7 +231,10 @@ export default function ExtractionControlHub({
                 <EyeOff size={14} /> Filtro Anti-Parpadeo (Solo Ojos Abiertos)
               </label>
 
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, color: '#a5b4fc' }}>
+              <label
+                style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, color: '#a5b4fc' }}
+                title="😀 Expresión Natural (Desactivada por defecto): Actívalo para filtrar fotos congeladas a mitad de habla con la boca abierta o muecas raras."
+              >
                 <input
                   type="checkbox"
                   checked={filterVocalizing}

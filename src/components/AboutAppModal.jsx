@@ -55,7 +55,7 @@ export default function AboutAppModal({ isOpen, onClose }) {
 
             <div style={{ padding: '0.75rem', background: 'rgba(0,0,0,0.25)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
               <strong style={{ fontSize: '0.85rem', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.3rem' }}>
-                <LayoutGrid size={16} /> 🎨 Pizarra PureRef Moodboard
+                <LayoutGrid size={16} /> 🎨 Pizarra Moodboard Canvas
               </strong>
               <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
                 Lienzo espacial infinito con zoom, pan, arrastre, escala, rotación libre (0°-360°), notas adhesivas y exportación PNG.
