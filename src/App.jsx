@@ -27,6 +27,15 @@ export default function App() {
   const [moodboardItems, setMoodboardItems] = useState([]);
   const [isMoodboardOpen, setIsMoodboardOpen] = useState(false);
 
+  // Export Settings State
+  const [exportSettings, setExportSettings] = useState({
+    format: 'png',
+    quality: 0.92,
+    scale: '1',
+    burnTimestamp: false,
+    namingPattern: '{video}_frame_{index}_{timestamp}'
+  });
+
   // Modal States
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isContactSheetOpen, setIsContactSheetOpen] = useState(false);
